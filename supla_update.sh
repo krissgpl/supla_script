@@ -52,6 +52,7 @@ while true; do
         1)
             BOARD=k_gate_module_v3
 			FLASH_SIZE=4096
+			NOSSL=0
 			break
             ;;
         2)
