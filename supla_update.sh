@@ -2,7 +2,7 @@
 
 DIALOG_CANCEL=1
 DIALOG_ESC=255
-HEIGHT=37
+HEIGHT=20
 WIDTH=40
 CHOICE_HEIGHT=29
 BACKTITLE="SUPLA FIRMWARE UPDATE"
@@ -21,8 +21,8 @@ OPTIONS=(1 "k_gate_module_v3"
 		 10 "k_sonoff_touch_dual"
 		 11 "k_sonoff_touch_triple"
 
-# rm -f /CProjects/supla-espressif-esp/firmware/result.txt
-# rm -f /CProjects/supla-espressif-esp/firmware/result2.txt
+rm -f /CProjects/supla-espressif-esp/firmware/result.txt
+rm -f /CProjects/supla-espressif-esp/firmware/result2.txt
 
 while true; do
 	exec 3>&1
