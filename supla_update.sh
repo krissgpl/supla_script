@@ -126,7 +126,7 @@ fi
 if [ -e /media/QNAP/ESP_Firmware/signed/$PLIK && -e /media/QNAP/ESP_Firmware/signed/$PLIK2 ]
 then
 
-	dialog --clear --backtitle "Znalazlem $PLIK w QNAP signed" --yesno "Czy skopiowac  ?" 10 40
+	dialog --clear --backtitle "Znalazlem $PLIK w QNAP signed Znalazlem $PLIK2 w QNAP signed" --yesno "Czy skopiowac  ?" 10 40
 		YOUR_CHOOSE=$?;
 		if [ "$YOUR_CHOOSE" == 0 ];
 		then
