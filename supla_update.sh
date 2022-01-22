@@ -141,6 +141,13 @@ then
 			exit;
 		fi
 		
+else
+	
+	dialog --clear --msgbox "Nie nalazlem w QNAP signed:   $PLIK  $PLIK2 Zapomniales skompilowac !" 10 50
+	exit
+	
+fi
+		
 	if [ -e /CProjects/supla-espressif-esp/firmware/$PLIK2 ]
 	then	
 
@@ -194,7 +201,3 @@ then
 		dialog --clear --msgbox "Nie udalo sie skompilowac $BOARD user2 ! Sprawdz log." 10 40
 		exit
 	fi
-		
-else
-	dialog --clear --msgbox "Nie udalo sie skompilowac $BOARD user1 ! Sprawdz log." 10 40
-fi
