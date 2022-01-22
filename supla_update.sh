@@ -119,8 +119,8 @@ fi
 
 # rm -f /CProjects/supla-espressif-esp/firmware/$PLIK
 # rm -f /CProjects/supla-espressif-esp/firmware/$PLIK2
-	
-
+echo "$PLIK";
+echo "$PLIK2";
 
 
 if [ -e /media/QNAP/ESP_Firmware/signed/$PLIK && -e /media/QNAP/ESP_Firmware/signed/$PLIK2 ]
