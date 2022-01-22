@@ -127,7 +127,7 @@ echo "$PLIK2";
 if [ -e /media/QNAP/ESP_Firmware/signed/$PLIK ] && [ -e /media/QNAP/ESP_Firmware/signed/$PLIK2 ]
 then
 
-	dialog --clear --yesno "Znalazlem w QNAP signed:   $PLIK  $PLIK2 Czy skopiowac  ?" 10 50
+	dialog --clear --yesno "Znalazlem w QNAP signed:   $PLIK  $PLIK2 Czy skopiowac  ?" 10 55
 		YOUR_CHOOSE=$?;
 		if [ "$YOUR_CHOOSE" == 0 ];
 		then
@@ -143,7 +143,7 @@ then
 		
 else
 	
-	dialog --clear --msgbox "Nie nalazlem w QNAP signed:   $PLIK  $PLIK2 Zapomniales skompilowac !" 10 50
+	dialog --clear --msgbox "Nie nalazlem w QNAP signed:   $PLIK  $PLIK2 Zapomniales skompilowac !" 10 55
 	exit
 	
 fi
