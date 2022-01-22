@@ -45,7 +45,7 @@ while true; do
     $DIALOG_ESC)
       clear
       echo "Program aborted." >&2
-      exit 1
+    #  exit 1
       ;;
   esac
   case $CHOICE in
