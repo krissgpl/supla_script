@@ -9,38 +9,20 @@ BACKTITLE="SUPLA FIRMWARE UPDATE"
 TITLE="PLYTKI"
 MENU="Wybierz plytke:"
 
-OPTIONS=(1 "k_gate_module"
-		 2 "k_gate_module_v3"
-		 3 "k_dimmer"
-		 4 "k_gniazdko_neo"
-		 5 "k_rs_module_v3"
-		 6 "k_socket_v2"
-		 7 "k_socket_dual_v2"
-		 8 "k_switch_dual"
-		 9 "k_socket_SSR"
-		 10 "k_yunschan"
-		 11 "k_socket_01"
-		 12 "k_smoke_module"
-		 13 "k_smoke_module_ds18b20"
-		 14 "k_smoke_module_DHT22"
-		 15 "k_socket"
-		 16 "k_socket_ds18b20"
-		 17 "k_socket_DHT22"
-		 18 "k_socket_dual"
-		 19 "k_socket_dual_ds18b20"
-		 20 "k_socket_dual_DHT22"
-		 21 "k_sonoff"
-		 22 "k_sonoff_ds18b20"
-		 23 "k_sonoff_DHT22"
-		 24 "k_sonoff_touch"
-		 25 "k_sonoff_touch_dual"
-		 26 "k_sonoff_touch_triple"
-		 27 "k_sonoff_pow_R2"
-		 28 "k_impulse_counter"
-		 29 "k_impulse_counter_3")
+OPTIONS=(1 "k_gate_module_v3"
+		 2 "k_dimmer"
+		 3 "k_gniazdko_neo"
+		 4 "k_rs_module_v3"
+		 5 "k_switch_dual"
+		 6 "k_socket_SSR"
+		 7 "k_yunschan"
+		 8 "k_smoke_module"
+		 9 "k_socket_DHT22"
+		 10 "k_sonoff_touch_dual"
+		 11 "k_sonoff_touch_triple"
 
-rm -f /CProjects/supla-espressif-esp/firmware/result.txt
-rm -f /CProjects/supla-espressif-esp/firmware/result2.txt
+# rm -f /CProjects/supla-espressif-esp/firmware/result.txt
+# rm -f /CProjects/supla-espressif-esp/firmware/result2.txt
 
 while true; do
 	exec 3>&1
@@ -68,149 +50,59 @@ while true; do
   esac
   case $CHOICE in
         1)
-            BOARD=k_gate_module
-			FLASH_SIZE=4096
-			break
-            ;;
-        2)
             BOARD=k_gate_module_v3
 			FLASH_SIZE=4096
 			break
             ;;
-        3)
+        2)
             BOARD=k_dimmer
 			FLASH_SIZE=4096
 			NOSSL=1
 			break
             ;;
-		4)
+		3)
             BOARD=k_gniazdko_neo
 			FLASH_SIZE=1024
 			break
             ;;
-		5)
+		4)
             BOARD=k_rs_module_v3
 			FLASH_SIZE=4096
 			break
             ;;
-		6)
-            BOARD=k_socket_v2
-			FLASH_SIZE=4096
-			break
-            ;;
-		7)
-            BOARD=k_socket_dual_v2
-			FLASH_SIZE=4096
-			break
-            ;;
-		8)
+		5)
             BOARD=k_switch_dual
 			FLASH_SIZE=4096
 			break
             ;;
-		9)
+		6)
             BOARD=k_socket_SSR
 			FLASH_SIZE=4096
 			break
             ;;
-		10)
+		7)
             BOARD=k_yunschan
 			FLASH_SIZE=4096
 			break
             ;;
-		11)
-            BOARD=k_socket_01
-			FLASH_SIZE=1024
-			break
-            ;;
-		12)
+		8)
             BOARD=k_smoke_module
 			FLASH_SIZE=4096
 			break
             ;;
-		13)
-            BOARD=k_smoke_module_ds18b20
-			FLASH_SIZE=4096
-			break
-            ;;
-		14)
-            BOARD=k_smoke_module_DHT22
-			FLASH_SIZE=4096
-			break
-            ;;
-		15)
-            BOARD=k_socket
-			FLASH_SIZE=4096
-			break
-            ;;
-		16)
-            BOARD=k_socket_ds18b20
-			FLASH_SIZE=4096
-			break
-            ;;
-		17)
+		9)
             BOARD=k_socket_DHT22
 			FLASH_SIZE=4096
 			break
             ;;
-		18)
-            BOARD=k_socket_dual
-			FLASH_SIZE=4096
-			break
-            ;;
-		19)
-            BOARD=k_socket_dual_ds18b20
-			FLASH_SIZE=4096
-			break
-            ;;
-		20)
-            BOARD=k_socket_dual_DHT22
-			FLASH_SIZE=4096
-			break
-            ;;
-		21)
-            BOARD=k_sonoff
-			FLASH_SIZE=1024
-			break
-            ;;
-		22)
-            BOARD=k_sonoff_ds18b20
-			FLASH_SIZE=1024
-			break
-            ;;
-		23)
-            BOARD=k_sonoff_DHT22
-			FLASH_SIZE=1024
-			break
-            ;;
-		24)
-            BOARD=k_sonoff_touch
-			FLASH_SIZE=1024
-			break
-            ;;
-		25)
+		10)
             BOARD=k_sonoff_touch_dual
 			FLASH_SIZE=1024
 			break
             ;;
-		26)
+		11)
             BOARD=k_sonoff_touch_triple
 			FLASH_SIZE=1024
-			break
-            ;;
-		27)
-            BOARD=k_sonoff_pow_R2
-			FLASH_SIZE=2048
-			break
-            ;;
-		28)
-            BOARD=k_impulse_counter
-			FLASH_SIZE=2048
-			break
-            ;;
-		28)
-            BOARD=k_impulse_counter_3
-			FLASH_SIZE=2048
 			break
             ;;
   esac
@@ -225,18 +117,16 @@ else
 	PLIK2="$BOARD"_user2."$FLASH_SIZE"_DIO.new.6.sdk3x.bin;
 fi
 
-rm -f /CProjects/supla-espressif-esp/firmware/$PLIK
-rm -f /CProjects/supla-espressif-esp/firmware/$PLIK2
+# rm -f /CProjects/supla-espressif-esp/firmware/$PLIK
+# rm -f /CProjects/supla-espressif-esp/firmware/$PLIK2
 	
 
 
 
-if [ -e /CProjects/supla-espressif-esp/firmware/$PLIK ]
+if [ -e /media/QNAP/ESP_Firmware/signed/$PLIK && -e /media/QNAP/ESP_Firmware/signed/$PLIK2 ]
 then
 
-	echo "gotowe"
-
-	dialog --clear --backtitle "USER2 dla $BOARD" --yesno "Czy skompilowac USER2 dla plytki $BOARD ?" 10 40
+	dialog --clear --backtitle "Znalazlem $PLIK w QNAP signed" --yesno "Czy skopiowac  ?" 10 40
 		YOUR_CHOOSE=$?;
 		if [ "$YOUR_CHOOSE" == 0 ];
 		then
