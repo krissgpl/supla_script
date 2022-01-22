@@ -19,10 +19,10 @@ OPTIONS=(1 "k_gate_module_v3"
 		 8 "k_smoke_module"
 		 9 "k_socket_DHT22"
 		 10 "k_sonoff_touch_dual"
-		 11 "k_sonoff_touch_triple"
+		 11 "k_sonoff_touch_triple")
 
-rm -f /CProjects/supla-espressif-esp/firmware/result.txt
-rm -f /CProjects/supla-espressif-esp/firmware/result2.txt
+# rm -f /CProjects/supla-espressif-esp/firmware/result.txt
+# rm -f /CProjects/supla-espressif-esp/firmware/result2.txt
 
 while true; do
 	exec 3>&1
@@ -45,7 +45,7 @@ while true; do
     $DIALOG_ESC)
       clear
       echo "Program aborted." >&2
-    #  exit 1
+      exit 1
       ;;
   esac
   case $CHOICE in
@@ -126,7 +126,7 @@ fi
 if [ -e /media/QNAP/ESP_Firmware/signed/$PLIK && -e /media/QNAP/ESP_Firmware/signed/$PLIK2 ]
 then
 
-	dialog --clear --backtitle "Znalazlem $PLIK w QNAP signed Znalazlem $PLIK2 w QNAP signed" --yesno "Czy skopiowac  ?" 10 40
+	dialog --clear --backtitle "Znalazlem $PLIK w QNAP signed Znalazlem $PLIK2 w QNAP signed" --yesno "Czy skopiowac  ?" 10 30
 		YOUR_CHOOSE=$?;
 		if [ "$YOUR_CHOOSE" == 0 ];
 		then
