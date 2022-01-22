@@ -131,7 +131,7 @@ then
 		YOUR_CHOOSE=$?;
 		if [ "$YOUR_CHOOSE" == 0 ];
 		then
-
+			echo "Kopiowanie plikow";
 		elif [ "$YOUR_CHOOSE" == 1 ];
 		then
 			echo "Wybrałeś Nie";
