@@ -156,7 +156,7 @@ cp /media/QNAP/ESP_Firmware/signed/$PLIK2 /var/www/html/update/$PLIK2
 	if [ -e /var/www/html/update/$PLIK ] && [ -e /var/www/html/update/$PLIK2 ]
 	then	
 
-	dialog --clear  "Udane skopiowanie do www/update:   $PLIK  $PLIK2	Czy zaktualizowac wpisy w esp_update ?" 10 52
+	dialog --clear --yesno "Udane skopiowanie do www/update:   $PLIK  $PLIK2	Czy zaktualizowac wpisy w esp_update ?" 10 52
 		YOUR_CHOOSE=$?;
 		if [ "$YOUR_CHOOSE" == 0 ];
 		then
