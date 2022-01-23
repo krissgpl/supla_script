@@ -147,48 +147,20 @@ else
 	exit
 	
 fi
+
+rm -f /var/www/html/update/$PLIK
+rm -f /var/www/html/update/$PLIK2
+cp /media/QNAP/ESP_Firmware/signed/$PLIK /var/www/html/update/$PLIK
+cp /media/QNAP/ESP_Firmware/signed/$PLIK2 /var/www/html/update/$PLIK2
 		
-	if [ -e /CProjects/supla-espressif-esp/firmware/$PLIK2 ]
+	if [ -e /var/www/html/update/$PLIK ] && [ -e /var/www/html/update/$PLIK2 ]
 	then	
 
-	dialog --clear --backtitle "Podpisanie firmware dla $BOARD" --yesno "Czy podpisac firmware dla plytki $BOARD ?" 10 40
+	dialog --clear  "Udane skopiowanie do www/update:   $PLIK  $PLIK2	Czy zaktualizowac wpisy w esp_update ?" 10 52
 		YOUR_CHOOSE=$?;
 		if [ "$YOUR_CHOOSE" == 0 ];
 		then
-			echo "Podpisanie firmware dla $BOARD";
-			echo "Firmware : $PLIK";
-			echo "Firmware2 : $PLIK2";
-			cd  /CProjects/supla-espressif-esp/firmware
-			supla-esp-sigtool -k klucz -s $PLIK
-			supla-esp-sigtool -k klucz -s $PLIK2
-			supla-esp-sigtool -k klucz -v $PLIK &> result.txt
-			supla-esp-sigtool -k klucz -v $PLIK2 &> result2.txt
-			if  grep -q 'verified' result.txt
-			then
-				echo "Firmware $PLIK podpisane prawidlowo";
-				mkdir -p /CProjects/supla-espressif-esp/firmware/signed
-				rm -f /CProjects/supla-espressif-esp/firmware/signed/$PLIK
-				cp /CProjects/supla-espressif-esp/firmware/$PLIK /CProjects/supla-espressif-esp/firmware/signed/$PLIK
-				rm -f /CProjects/supla-espressif-esp/firmware/$PLIK
-				rm -f /CProjects/supla-espressif-esp/firmware/result.txt
-				sleep 1
-				dialog --clear --msgbox "Firmware $PLIK podpisane i przeniesione do firmware/signed." 10 40
-			else
-				echo "Nie udalo sie podpisac firmware $PLIK !";
-			fi
-			if  grep -q 'verified' result2.txt
-			then
-				echo "Firmware $PLIK2 podpisane prawidlowo";
-				mkdir -p /CProjects/supla-espressif-esp/firmware/signed
-				rm -f /CProjects/supla-espressif-esp/firmware/signed/$PLIK2
-				cp /CProjects/supla-espressif-esp/firmware/$PLIK2 /CProjects/supla-espressif-esp/firmware/signed/$PLIK2
-				rm -f /CProjects/supla-espressif-esp/firmware/$PLIK2
-				rm -f /CProjects/supla-espressif-esp/firmware/result2.txt
-				sleep 1
-				dialog --clear --msgbox "Firmware $PLIK2 podpisane i przeniesione do firmware/signed." 10 40
-			else
-				echo "Nie udalo sie podpisac firmware $PLIK2 !";
-			fi
+			echo "wpis esp_update dla $BOARD";
 		elif [ "$YOUR_CHOOSE" == 1 ];
 		then
 			echo "Wybrałeś Nie";
@@ -198,6 +170,6 @@ fi
 			exit;
 		fi
 	else
-		dialog --clear --msgbox "Nie udalo sie skompilowac $BOARD user2 ! Sprawdz log." 10 40
+		dialog --clear --msgbox "Nie udalo sie skopiowac do www/update:   $PLIK  $PLIK2 ! Sprawdz log." 10 52
 		exit
 	fi
