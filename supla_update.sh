@@ -23,6 +23,7 @@ OPTIONS=(1 "k_gate_module_v3"
 
 # rm -f /CProjects/supla-espressif-esp/firmware/result.txt
 # rm -f /CProjects/supla-espressif-esp/firmware/result2.txt
+rm -f ~/update.txt
 
 while true; do
 	exec 3>&1
