@@ -161,6 +161,7 @@ cp /media/QNAP/ESP_Firmware/signed/$PLIK2 /var/www/html/update/$PLIK2
 		if [ "$YOUR_CHOOSE" == 0 ];
 		then
 			echo "wpis esp_update dla $BOARD";
+			~/source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update" > update.txt
 		elif [ "$YOUR_CHOOSE" == 1 ];
 		then
 			echo "Wybrałeś Nie";
