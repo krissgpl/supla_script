@@ -25,6 +25,7 @@ OPTIONS=(1 "k_gate_module_v3"
 # rm -f /CProjects/supla-espressif-esp/firmware/result2.txt
 rm -f ~/update.txt
 rm -f ~/wynik.txt
+rm -f ~/fraza.txt
 
 while true; do
 	exec 3>&1
@@ -164,8 +165,9 @@ cp /media/QNAP/ESP_Firmware/signed/$PLIK2 /var/www/html/update/$PLIK2
 		then
 			echo "wpis esp_update dla $BOARD";
 			cd /home/pi
-			source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update" > update.txt
-			grep -n "^${PLIK2}" > wynik.txt
+			source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update" > update.txt;
+			echo "$PLIK2" > fraza.txt;
+			grep -n "^${PLIK2}" > wynik.txt;
 		elif [ "$YOUR_CHOOSE" == 1 ];
 		then
 			echo "Wybrałeś Nie";
