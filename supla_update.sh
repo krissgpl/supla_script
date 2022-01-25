@@ -21,11 +21,7 @@ OPTIONS=(1 "k_gate_module_v3"
 		 10 "k_sonoff_touch_dual"
 		 11 "k_sonoff_touch_triple")
 
-# rm -f /CProjects/supla-espressif-esp/firmware/result.txt
-# rm -f /CProjects/supla-espressif-esp/firmware/result2.txt
 rm -f ~/update.txt
-rm -f ~/wynik.txt
-rm -f ~/fraza.txt
 
 while true; do
 	exec 3>&1
@@ -122,11 +118,8 @@ else
 	PLIK2="$BOARD"_user2."$FLASH_SIZE"_DIO.new.6.sdk3x.bin;
 fi
 
-# rm -f /CProjects/supla-espressif-esp/firmware/$PLIK
-# rm -f /CProjects/supla-espressif-esp/firmware/$PLIK2
 echo "$PLIK";
 echo "$PLIK2";
-
 
 if [ -e /media/QNAP/ESP_Firmware/signed/$PLIK ] && [ -e /media/QNAP/ESP_Firmware/signed/$PLIK2 ]
 then
@@ -139,9 +132,11 @@ then
 		elif [ "$YOUR_CHOOSE" == 1 ];
 		then
 			echo "Wybrałeś Nie";
+			rm -f ~/update.txt
 			exit;
 		else
 			echo "Niczego nie wybrałeś";
+			rm -f ~/update.txt
 			exit;
 		fi
 		
@@ -174,22 +169,55 @@ cp /media/QNAP/ESP_Firmware/signed/$PLIK2 /var/www/html/update/$PLIK2
 					cd /home/pi
 					source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update WHERE id=33 or id=34" > update.txt;
 					;;
+				k_gniazdko_neo)
+					cd /home/pi
+					source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update WHERE id=1 or id=2" > update.txt;
+					;;
+				k_rs_module_v3)
+					cd /home/pi
+					source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update WHERE id=5 or id=6 or id=7 or id=8 or id=9 or id=10" > update.txt;
+					;;
+				k_switch_dual)
+					cd /home/pi
+					source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update WHERE id=19 or id=20 or id=21 or id=22 or id=23 or id=24" > update.txt;
+					;;
+				k_socket_SSR)
+					cd /home/pi
+					source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update WHERE id=25 or id=26" > update.txt;
+					;;
+				k_yunschan)
+					cd /home/pi
+					source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update WHERE id=3 or id=4" > update.txt;
+					;;
+				k_smoke_module)
+					cd /home/pi
+					source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update WHERE id=17 or id=18" > update.txt;
+					;;
+				k_socket_DHT22)
+					cd /home/pi
+					source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update WHERE id=15 or id=16" > update.txt;
+					;;
+				k_sonoff_touch_dual)
+					cd /home/pi
+					source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update WHERE id=11 or id=12" > update.txt;
+					;;
+				k_sonoff_touch_triple)
+					cd /home/pi
+					source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update WHERE id=13 or id=14" > update.txt;
+					;;
 			esac
-			#echo "$PLIK2" > fraza.txt;
-			#grep -n "^${PLIK2}" > wynik.txt;
-			#VER=$(cut -f 5 update.txt | tail -1);
-			#echo "$VER";
 			dialog --backtitle "SUPLA FIRMWARE UPDATE" --title "Wpis w esp_update przed modyfikacja :" --textbox "update.txt" 20 185
 			while [ -z "$NEWVER" ]; do
 				VER=$(cut -f 5 update.txt | tail -1);
 				echo "$VER";
-				NEWVER=$( dialog --inputbox "Dla $BOARD wersja softu : $VER   Wprowadz nowa wersje:" 12 40 3>&1 1>&2 2>&3 3>&- )
+				NEWVER=$( dialog --backtitle "SUPLA FIRMWARE UPDATE" --inputbox "Dla $BOARD wersja softu : $VER   Wprowadz nowa wersje:" 12 40 3>&1 1>&2 2>&3 3>&- )
 				if [ -z "$NEWVER" ];
 					then 
 					dialog --clear --backtitle "SUPLA FIRMWARE UPDATE" --yesno "Nic nie wpisales !   Czy chcesz wyjsc ?" 10 40
 					YOUR_CHOOSE=$?;
 					if [ "$YOUR_CHOOSE" == 0 ];
 						then
+						rm -f ~/update.txt
 						exit;
 					fi
 				fi
@@ -211,12 +239,15 @@ cp /media/QNAP/ESP_Firmware/signed/$PLIK2 /var/www/html/update/$PLIK2
 		elif [ "$YOUR_CHOOSE" == 1 ];
 		then
 			echo "Wybrałeś Nie";
+			rm -f ~/update.txt
 			exit;
 		else
 			echo "Niczego nie wybrałeś";
+			rm -f ~/update.txt
 			exit;
 		fi
 	else
 		dialog --clear --backtitle "SUPLA FIRMWARE UPDATE" --msgbox "Nie udalo sie skopiowac do www/update:   $PLIK  $PLIK2 ! Sprawdz log." 10 52
+		rm -f ~/update.txt
 		exit
 	fi
