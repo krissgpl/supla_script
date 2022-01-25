@@ -168,11 +168,11 @@ cp /media/QNAP/ESP_Firmware/signed/$PLIK2 /var/www/html/update/$PLIK2
 			case $BOARD in
 				k_gate_module_v3)
 					cd /home/pi
-					source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update WHERE path='k_gate_module_v3_user1.4096_DIO.new.6.sdk3x.bin' or path='k_gate_module_v3_user2.4096_DIO.new.6.sdk3x.bin'" > update.txt;
+					source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update WHERE id=27 or id=28 or id=29 or id=30 or id=31 or id=32" > update.txt;
 					;;
 				k_dimmer)
 					cd /home/pi
-					source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update WHERE path='k_dimmer_nossl_user1.4096_DIO.new.6.sdk3x.bin' or path='k_dimmer_nossl_user2.4096_DIO.new.6.sdk3x.bin'" > update.txt;
+					source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update WHERE id=33 or id=34" > update.txt;
 					;;
 			esac
 			#echo "$PLIK2" > fraza.txt;
