@@ -177,7 +177,7 @@ cp /media/QNAP/ESP_Firmware/signed/$PLIK2 /var/www/html/update/$PLIK2
 			esac
 			#echo "$PLIK2" > fraza.txt;
 			#grep -n "^${PLIK2}" > wynik.txt;
-			VER=$(cut -f 5 update.txt | head -1);
+			VER=$(cut -f 5 update.txt | tail -1);
 			echo "$VER";
 		elif [ "$YOUR_CHOOSE" == 1 ];
 		then
