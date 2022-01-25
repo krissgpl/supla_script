@@ -179,6 +179,7 @@ cp /media/QNAP/ESP_Firmware/signed/$PLIK2 /var/www/html/update/$PLIK2
 			#grep -n "^${PLIK2}" > wynik.txt;
 			#VER=$(cut -f 5 update.txt | tail -1);
 			#echo "$VER";
+			dialog --title "Wpis w esp_update przed modyfikacja :" --textbox "update.txt" 20 180
 			while [ -z "$NEWVER" ]; do
 				VER=$(cut -f 5 update.txt | tail -1);
 				echo "$VER";
@@ -200,7 +201,7 @@ cp /media/QNAP/ESP_Firmware/signed/$PLIK2 /var/www/html/update/$PLIK2
 					source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update WHERE id=33 or id=34" > update.txt
 					;;
 			esac
-			dialog --title "Zaktualizowany wpis w esp_update" --textbox "update.txt" 20 200
+			dialog --title "Zaktualizowany wpis w esp_update :" --textbox "update.txt" 20 180
 		elif [ "$YOUR_CHOOSE" == 1 ];
 		then
 			echo "Wybrałeś Nie";
