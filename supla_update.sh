@@ -179,14 +179,16 @@ cp /media/QNAP/ESP_Firmware/signed/$PLIK2 /var/www/html/update/$PLIK2
 			#grep -n "^${PLIK2}" > wynik.txt;
 			VER=$(cut -f 5 update.txt | tail -1);
 			echo "$VER";
-			NEWVER=$( dialog --inputbox "Dla $BOARD wersja softu : $VER   Wprowadz nowa wersje:" 12 40 3>&1 1>&2 2>&3 3>&- )
+			while [ $NEWVER != 0 ]; do
+				NEWVER=$( dialog --inputbox "Dla $BOARD wersja softu : $VER   Wprowadz nowa wersje:" 12 40 3>&1 1>&2 2>&3 3>&- )
+			done
 			echo "Nowa wersja : $NEWVER";
 			case $BOARD in
 				k_gate_module_v3)
 					source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "UPDATE esp_update set latest_software_version='$NEWVER' WHERE id=27 or id=28 or id=29 or id=30 or id=31 or id=32";
 					;;
 				k_dimmer)
-					source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "UPDATE esp_update set latest_software_version='$NEWVER' WHERE id=33 or id=342";
+					source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "UPDATE esp_update set latest_software_version='$NEWVER' WHERE id=33 or id=34";
 					;;
 			esac
 			source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update WHERE id=33 or id=34"
