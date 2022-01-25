@@ -179,6 +179,8 @@ cp /media/QNAP/ESP_Firmware/signed/$PLIK2 /var/www/html/update/$PLIK2
 			#grep -n "^${PLIK2}" > wynik.txt;
 			VER=$(cut -f 5 update.txt | tail -1);
 			echo "$VER";
+			NEWVER=$( dialog --title "Dla $BOARD wersja softu : $VER" --inputbox "Wprowadz nowa wersje:" 8 40 3>&1 1>&2 2>&3 3>&- )
+			echo "Nowa wersja : $NEWVER";
 		elif [ "$YOUR_CHOOSE" == 1 ];
 		then
 			echo "Wybrałeś Nie";
