@@ -124,7 +124,7 @@ echo "$PLIK2";
 if [ -e /media/QNAP/ESP_Firmware/signed/$PLIK ] && [ -e /media/QNAP/ESP_Firmware/signed/$PLIK2 ]
 then
 
-	dialog --clear --backtitle "SUPLA FIRMWARE UPDATE" --yesno "Znalazlem w QNAP signed:   $PLIK  $PLIK2 \n	Czy skopiowac ?" 10 52
+	dialog --clear --backtitle "SUPLA FIRMWARE UPDATE" --yesno "Znalazlem w QNAP signed: \n  $PLIK  $PLIK2 \n Czy skopiowac ?" 10 52
 		YOUR_CHOOSE=$?;
 		if [ "$YOUR_CHOOSE" == 0 ];
 		then
@@ -142,7 +142,7 @@ then
 		
 else
 	
-	dialog --clear --backtitle "SUPLA FIRMWARE UPDATE" --msgbox "Nie nalazlem w QNAP signed:   $PLIK  $PLIK2 \n	Zapomniales skompilowac !" 10 52
+	dialog --clear --backtitle "SUPLA FIRMWARE UPDATE" --msgbox "Nie nalazlem w QNAP signed: \n  $PLIK  $PLIK2 \n Zapomniales skompilowac !" 10 52
 	exit
 	
 fi
@@ -155,7 +155,7 @@ cp /media/QNAP/ESP_Firmware/signed/$PLIK2 /var/www/html/update/$PLIK2
 	if [ -e /var/www/html/update/$PLIK ] && [ -e /var/www/html/update/$PLIK2 ]
 	then	
 
-	dialog --clear --backtitle "SUPLA FIRMWARE UPDATE" --yesno "Udane skopiowanie do www/update:   $PLIK  $PLIK2	Czy zaktualizowac wpisy w esp_update ?" 10 52
+	dialog --clear --backtitle "SUPLA FIRMWARE UPDATE" --yesno "Udane skopiowanie do www/update: \n  $PLIK  $PLIK2 \n Czy zaktualizowac wpisy w esp_update ?" 10 52
 		YOUR_CHOOSE=$?;
 		if [ "$YOUR_CHOOSE" == 0 ];
 		then
@@ -207,13 +207,16 @@ cp /media/QNAP/ESP_Firmware/signed/$PLIK2 /var/www/html/update/$PLIK2
 					;;
 			esac
 			dialog --backtitle "SUPLA FIRMWARE UPDATE" --title "Wpis w esp_update przed modyfikacja :" --textbox "update.txt" 20 185
+			while read line; do
+				if  echo "$line" | grep -q "$PLIK"; then echo "ok"; fi
+			done < update.txt
 			while [ -z "$NEWVER" ]; do
 				VER=$(cut -f 5 update.txt | tail -1);
 				echo "$VER";
-				NEWVER=$( dialog --backtitle "SUPLA FIRMWARE UPDATE" --inputbox "Dla $BOARD wersja softu : $VER   Wprowadz nowa wersje:" 12 40 3>&1 1>&2 2>&3 3>&- )
+				NEWVER=$( dialog --backtitle "SUPLA FIRMWARE UPDATE" --inputbox "Dla $BOARD wersja softu : $VER \n  Wprowadz nowa wersje:" 12 40 3>&1 1>&2 2>&3 3>&- )
 				if [ -z "$NEWVER" ];
 					then 
-					dialog --clear --backtitle "SUPLA FIRMWARE UPDATE" --yesno "Nic nie wpisales !   Czy chcesz wyjsc ?" 10 40
+					dialog --clear --backtitle "SUPLA FIRMWARE UPDATE" --yesno "Nic nie wpisales ! \n  Czy chcesz wyjsc ?" 10 40
 					YOUR_CHOOSE=$?;
 					if [ "$YOUR_CHOOSE" == 0 ];
 						then
@@ -247,7 +250,7 @@ cp /media/QNAP/ESP_Firmware/signed/$PLIK2 /var/www/html/update/$PLIK2
 			exit;
 		fi
 	else
-		dialog --clear --backtitle "SUPLA FIRMWARE UPDATE" --msgbox "Nie udalo sie skopiowac do www/update:   $PLIK  $PLIK2 ! Sprawdz log." 10 52
+		dialog --clear --backtitle "SUPLA FIRMWARE UPDATE" --msgbox "Nie udalo sie skopiowac do www/update: \n  $PLIK  $PLIK2 ! \n Sprawdz log." 10 52
 		rm -f ~/update.txt
 		exit
 	fi
