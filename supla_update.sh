@@ -256,6 +256,7 @@ cp /media/QNAP/ESP_Firmware/signed/$PLIK2 /var/www/html/update/$PLIK2
 					;;
 			esac
 			exit;
+			fi
 		  fi	
 		elif [ "$YOUR_CHOOSE" == 1 ];
 		then
