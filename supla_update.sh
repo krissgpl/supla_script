@@ -242,7 +242,19 @@ cp /media/QNAP/ESP_Firmware/signed/$PLIK2 /var/www/html/update/$PLIK2
 			esac
 			dialog --backtitle "SUPLA FIRMWARE UPDATE" --title "Zaktualizowany wpis w esp_update :" --textbox "update.txt" 20 185
 		  else
-			dialog --clear --backtitle "SUPLA FIRMWARE UPDATE" --msgbox "Nie zgadza sie wpis esp_update z $PLIK !  " 10 52
+			dialog --clear --backtitle "SUPLA FIRMWARE UPDATE" --yesno "Nie zgadza sie wpis esp_update z $PLIK ! \n Czy chcesz naprawic ? " 10 52
+			YOUR_CHOOSE=$?;
+			if [ "$YOUR_CHOOSE" == 0 ];
+			then
+			case $BOARD in
+				k_gate_module_v3)
+					source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "UPDATE esp_update set path='get_file.php?file=$PLIK' WHERE id=28 or id=30 or id=32";
+					source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "UPDATE esp_update set path='get_file.php?file=$PLIK2' WHERE id=27 or id=29 or id=31";
+					rm -f ~/update.txt
+					source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update WHERE id=27 or id=28 or id=29 or id=30 or id=31 or id=32" > update.txt;
+					dialog --backtitle "SUPLA FIRMWARE UPDATE" --title "Zaktualizowany wpis path w esp_update :" --textbox "update.txt" 20 185
+					;;
+			esac
 			exit;
 		  fi	
 		elif [ "$YOUR_CHOOSE" == 1 ];
