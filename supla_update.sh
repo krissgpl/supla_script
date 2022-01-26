@@ -208,9 +208,10 @@ cp /media/QNAP/ESP_Firmware/signed/$PLIK2 /var/www/html/update/$PLIK2
 			esac
 			dialog --backtitle "SUPLA FIRMWARE UPDATE" --title "Wpis w esp_update przed modyfikacja :" --textbox "update.txt" 20 185
 			while read line; do
-				if echo "$line" | grep -q "$PLIK"; then echo "Jest ok w pliku wynik.txt"; fi
-				if echo "$line" | grep -q "^$PLIK"; then echo "Plik wynik.txt nie zgadza sie z plikiem firmware !"; fi
+				if echo "$line" | grep -q "$PLIK"; then WYNIK=1; fi
 			done < update.txt
+		  if [ $WYNIK = 1 ]
+			then
 			while [ -z "$NEWVER" ]; do
 				VER=$(cut -f 5 update.txt | tail -1);
 				echo "$VER";
@@ -249,6 +250,10 @@ cp /media/QNAP/ESP_Firmware/signed/$PLIK2 /var/www/html/update/$PLIK2
 			echo "Niczego nie wybrałeś";
 			rm -f ~/update.txt
 			exit;
+	  else
+		dialog --clear --backtitle "SUPLA FIRMWARE UPDATE" --msgbox "Nie zgadza sie wpis esp_update z $PLIK !  " 10 52
+		exit;
+	  fi	
 		fi
 	else
 		dialog --clear --backtitle "SUPLA FIRMWARE UPDATE" --msgbox "Nie udalo sie skopiowac do www/update: \n  $PLIK  $PLIK2 ! \n Sprawdz log." 10 52
