@@ -124,7 +124,7 @@ echo "$PLIK2";
 if [ -e /media/QNAP/ESP_Firmware/signed/$PLIK ] && [ -e /media/QNAP/ESP_Firmware/signed/$PLIK2 ]
 then
 
-	dialog --clear --backtitle "SUPLA FIRMWARE UPDATE" --yesno "Znalazlem w QNAP signed:   $PLIK  $PLIK2	Czy skopiowac ?" 10 52
+	dialog --clear --backtitle "SUPLA FIRMWARE UPDATE" --yesno "Znalazlem w QNAP signed:   $PLIK  $PLIK2 \n	Czy skopiowac ?" 10 52
 		YOUR_CHOOSE=$?;
 		if [ "$YOUR_CHOOSE" == 0 ];
 		then
@@ -142,7 +142,7 @@ then
 		
 else
 	
-	dialog --clear --backtitle "SUPLA FIRMWARE UPDATE" --msgbox "Nie nalazlem w QNAP signed:   $PLIK  $PLIK2	Zapomniales skompilowac !" 10 52
+	dialog --clear --backtitle "SUPLA FIRMWARE UPDATE" --msgbox "Nie nalazlem w QNAP signed:   $PLIK  $PLIK2 \n	Zapomniales skompilowac !" 10 52
 	exit
 	
 fi
