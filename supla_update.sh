@@ -9,6 +9,8 @@ BACKTITLE="SUPLA FIRMWARE UPDATE"
 TITLE="PLYTKI"
 MENU="Wybierz plytke:"
 
+WYNIK=0;
+
 OPTIONS=(1 "k_gate_module_v3"
 		 2 "k_dimmer"
 		 3 "k_gniazdko_neo"
