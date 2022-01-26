@@ -241,6 +241,10 @@ cp /media/QNAP/ESP_Firmware/signed/$PLIK2 /var/www/html/update/$PLIK2
 					;;
 			esac
 			dialog --backtitle "SUPLA FIRMWARE UPDATE" --title "Zaktualizowany wpis w esp_update :" --textbox "update.txt" 20 185
+		  else
+			dialog --clear --backtitle "SUPLA FIRMWARE UPDATE" --msgbox "Nie zgadza sie wpis esp_update z $PLIK !  " 10 52
+			exit;
+		  fi	
 		elif [ "$YOUR_CHOOSE" == 1 ];
 		then
 			echo "Wybrałeś Nie";
@@ -250,10 +254,6 @@ cp /media/QNAP/ESP_Firmware/signed/$PLIK2 /var/www/html/update/$PLIK2
 			echo "Niczego nie wybrałeś";
 			rm -f ~/update.txt
 			exit;
-	  else
-		dialog --clear --backtitle "SUPLA FIRMWARE UPDATE" --msgbox "Nie zgadza sie wpis esp_update z $PLIK !  " 10 52
-		exit;
-	  fi	
 		fi
 	else
 		dialog --clear --backtitle "SUPLA FIRMWARE UPDATE" --msgbox "Nie udalo sie skopiowac do www/update: \n  $PLIK  $PLIK2 ! \n Sprawdz log." 10 52
