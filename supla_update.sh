@@ -210,7 +210,7 @@ cp /media/QNAP/ESP_Firmware/signed/$PLIK2 /var/www/html/update/$PLIK2
 			while read line; do
 				if echo "$line" | grep -q "$PLIK"; then WYNIK=1; fi
 			done < update.txt
-		  if [ $WYNIK = 1 ]
+		  if [ $WYNIK == 1 ]
 			then
 			while [ -z "$NEWVER" ]; do
 				VER=$(cut -f 5 update.txt | tail -1);
