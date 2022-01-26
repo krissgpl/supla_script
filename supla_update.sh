@@ -212,7 +212,12 @@ cp /media/QNAP/ESP_Firmware/signed/$PLIK2 /var/www/html/update/$PLIK2
 			while read line; do
 				if echo "$line" | grep -q "$PLIK"; then WYNIK=1; fi
 			done < update.txt
-		  if [ $WYNIK == 1 ]
+			while read line; do
+				if echo "$line" | grep -q "$PLIK2"; then WYNIK=2; fi
+			done < update.txt
+		  while :
+		  do
+		  if [ $WYNIK == 2 ];
 			then
 			while [ -z "$NEWVER" ]; do
 				VER=$(cut -f 5 update.txt | tail -1);
@@ -243,6 +248,7 @@ cp /media/QNAP/ESP_Firmware/signed/$PLIK2 /var/www/html/update/$PLIK2
 					;;
 			esac
 			dialog --backtitle "SUPLA FIRMWARE UPDATE" --title "Zaktualizowany wpis w esp_update :" --textbox "update.txt" 20 185
+			exit;
 		  else
 			dialog --clear --backtitle "SUPLA FIRMWARE UPDATE" --yesno "Nie zgadza sie wpis esp_update z $PLIK ! \n Czy chcesz naprawic ? " 10 52
 			YOUR_CHOOSE=$?;
@@ -264,9 +270,9 @@ cp /media/QNAP/ESP_Firmware/signed/$PLIK2 /var/www/html/update/$PLIK2
 					dialog --backtitle "SUPLA FIRMWARE UPDATE" --title "Zaktualizowany wpis path w esp_update :" --textbox "update.txt" 20 185
 					;;
 			esac
-			exit;
 			fi
-		  fi	
+		  fi
+		done
 		elif [ "$YOUR_CHOOSE" == 1 ];
 		then
 			echo "Wybrałeś Nie";
