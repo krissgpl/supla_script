@@ -10,6 +10,7 @@ TITLE="PLYTKI"
 MENU="Wybierz plytke:"
 
 WYNIK=0;
+WYNIK2=0;
 
 OPTIONS=(1 "k_gate_module_v3"
 		 2 "k_dimmer"
@@ -211,68 +212,67 @@ cp /media/QNAP/ESP_Firmware/signed/$PLIK2 /var/www/html/update/$PLIK2
 			dialog --backtitle "SUPLA FIRMWARE UPDATE" --title "Wpis w esp_update przed modyfikacja :" --textbox "update.txt" 20 185
 			while read line; do
 				if echo "$line" | grep -q "$PLIK"; then WYNIK=1; fi
+				if echo "$line" | grep -q "$PLIK2"; then WYNIK2=1; fi
 			done < update.txt
-			while read line; do
-				if echo "$line" | grep -q "$PLIK2"; then WYNIK=2; fi
-			done < update.txt
-		  while :
-		  do
-		  if [ $WYNIK == 2 ];
-			then
-			while [ -z "$NEWVER" ]; do
-				VER=$(cut -f 5 update.txt | tail -1);
-				echo "$VER";
-				NEWVER=$( dialog --backtitle "SUPLA FIRMWARE UPDATE" --inputbox "Dla $BOARD wersja softu : $VER \n  Wprowadz nowa wersje:" 12 40 3>&1 1>&2 2>&3 3>&- )
-				if [ -z "$NEWVER" ];
-					then 
-					dialog --clear --backtitle "SUPLA FIRMWARE UPDATE" --yesno "Nic nie wpisales ! \n  Czy chcesz wyjsc ?" 10 40
+			echo "WYNIK=$WYNIK, WYNIK2=$WYNIK2";
+		    while :
+		    do
+				if [ $WYNIK == 1 ] && [ $WYNIK2 == 1 ];
+				then
+					while [ -z "$NEWVER" ]; do
+						VER=$(cut -f 5 update.txt | tail -1);
+						echo "$VER";
+						NEWVER=$( dialog --backtitle "SUPLA FIRMWARE UPDATE" --inputbox "Dla $BOARD wersja softu : $VER \n  Wprowadz nowa wersje:" 12 40 3>&1 1>&2 2>&3 3>&- )
+						if [ -z "$NEWVER" ];
+						then 
+							dialog --clear --backtitle "SUPLA FIRMWARE UPDATE" --yesno "Nic nie wpisales ! \n  Czy chcesz wyjsc ?" 10 40
+							YOUR_CHOOSE=$?;
+							if [ "$YOUR_CHOOSE" == 0 ];
+							then
+								rm -f ~/update.txt
+								exit;
+							fi
+						fi
+					done
+					echo "Nowa wersja : $NEWVER";
+					case $BOARD in
+						k_gate_module_v3)
+							source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "UPDATE esp_update set latest_software_version='$NEWVER' WHERE id=27 or id=28 or id=29 or id=30 or id=31 or id=32";
+							rm -f ~/update.txt
+							source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update WHERE id=27 or id=28 or id=29 or id=30 or id=31 or id=32" > update.txt;
+							;;
+							k_dimmer)
+							source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "UPDATE esp_update set latest_software_version='$NEWVER' WHERE id=33 or id=34";
+							rm -f ~/update.txt
+							source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update WHERE id=33 or id=34" > update.txt
+							;;
+					esac
+					dialog --backtitle "SUPLA FIRMWARE UPDATE" --title "Zaktualizowany wpis w esp_update :" --textbox "update.txt" 20 185
+					exit;
+				else
+					dialog --clear --backtitle "SUPLA FIRMWARE UPDATE" --yesno "Nie zgadza sie wpis esp_update z $PLIK ! \n Czy chcesz naprawic ? " 10 52
 					YOUR_CHOOSE=$?;
 					if [ "$YOUR_CHOOSE" == 0 ];
-						then
-						rm -f ~/update.txt
-						exit;
+					then
+						case $BOARD in
+							k_gate_module_v3)
+					#		source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "UPDATE esp_update set path='get_file.php?file=$PLIK' WHERE id=28 or id=30 or id=32";
+					#		source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "UPDATE esp_update set path='get_file.php?file=$PLIK2' WHERE id=27 or id=29 or id=31";
+					#		rm -f ~/update.txt
+					#		source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update WHERE id=27 or id=28 or id=29 or id=30 or id=31 or id=32" > update.txt;
+					#		dialog --backtitle "SUPLA FIRMWARE UPDATE" --title "Zaktualizowany wpis path w esp_update :" --textbox "update.txt" 20 185
+							;;
+							k_rs_module_v3)
+					#		source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "UPDATE esp_update set path='get_file.php?file=$PLIK' WHERE id=6 or id=8 or id=10";
+					#		source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "UPDATE esp_update set path='get_file.php?file=$PLIK2' WHERE id=5 or id=7 or id=9";
+					#		rm -f ~/update.txt
+					#		source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update WHERE id=5 or id=6 or id=7 or id=8 or id=9 or id=10" > update.txt;
+					#		dialog --backtitle "SUPLA FIRMWARE UPDATE" --title "Zaktualizowany wpis path w esp_update :" --textbox "update.txt" 20 185
+							;;
+						esac
 					fi
 				fi
 			done
-			echo "Nowa wersja : $NEWVER";
-			case $BOARD in
-				k_gate_module_v3)
-					source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "UPDATE esp_update set latest_software_version='$NEWVER' WHERE id=27 or id=28 or id=29 or id=30 or id=31 or id=32";
-					rm -f ~/update.txt
-					source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update WHERE id=27 or id=28 or id=29 or id=30 or id=31 or id=32" > update.txt;
-					;;
-				k_dimmer)
-					source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "UPDATE esp_update set latest_software_version='$NEWVER' WHERE id=33 or id=34";
-					rm -f ~/update.txt
-					source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update WHERE id=33 or id=34" > update.txt
-					;;
-			esac
-			dialog --backtitle "SUPLA FIRMWARE UPDATE" --title "Zaktualizowany wpis w esp_update :" --textbox "update.txt" 20 185
-			exit;
-		  else
-			dialog --clear --backtitle "SUPLA FIRMWARE UPDATE" --yesno "Nie zgadza sie wpis esp_update z $PLIK ! \n Czy chcesz naprawic ? " 10 52
-			YOUR_CHOOSE=$?;
-			if [ "$YOUR_CHOOSE" == 0 ];
-			then
-			case $BOARD in
-				k_gate_module_v3)
-					source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "UPDATE esp_update set path='get_file.php?file=$PLIK' WHERE id=28 or id=30 or id=32";
-					source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "UPDATE esp_update set path='get_file.php?file=$PLIK2' WHERE id=27 or id=29 or id=31";
-					rm -f ~/update.txt
-					source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update WHERE id=27 or id=28 or id=29 or id=30 or id=31 or id=32" > update.txt;
-					dialog --backtitle "SUPLA FIRMWARE UPDATE" --title "Zaktualizowany wpis path w esp_update :" --textbox "update.txt" 20 185
-					;;
-				k_rs_module_v3)
-					source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "UPDATE esp_update set path='get_file.php?file=$PLIK' WHERE id=6 or id=8 or id=10";
-					source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "UPDATE esp_update set path='get_file.php?file=$PLIK2' WHERE id=5 or id=7 or id=9";
-					rm -f ~/update.txt
-					source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update WHERE id=5 or id=6 or id=7 or id=8 or id=9 or id=10" > update.txt;
-					dialog --backtitle "SUPLA FIRMWARE UPDATE" --title "Zaktualizowany wpis path w esp_update :" --textbox "update.txt" 20 185
-					;;
-			esac
-			fi
-		  fi
-		done
 		elif [ "$YOUR_CHOOSE" == 1 ];
 		then
 			echo "Wybrałeś Nie";
