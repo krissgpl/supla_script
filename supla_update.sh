@@ -210,14 +210,16 @@ cp /media/QNAP/ESP_Firmware/signed/$PLIK2 /var/www/html/update/$PLIK2
 					;;
 			esac
 			dialog --backtitle "SUPLA FIRMWARE UPDATE" --title "Wpis w esp_update przed modyfikacja :" --textbox "update.txt" 20 185
-			LINIE=$( wc -l < update.txt );
-			((LINIE--));
-			echo "Liczba lini w update.txt : $LINIE";
-			while read line; do
-				if echo "$line" | grep -q "$PLIK"; then ((WYNIK++)); fi
-				if echo "$line" | grep -q "$PLIK2"; then ((WYNIK++)); fi
-			done < update.txt
-			echo "WYNIK=$WYNIK, LINIE=$LINIE";
+		    while :
+		    do
+				LINIE=$( wc -l < update.txt );
+				((LINIE--));
+				echo "Liczba lini w update.txt : $LINIE";
+				while read line; do
+					if echo "$line" | grep -q "$PLIK"; then ((WYNIK++)); fi
+					if echo "$line" | grep -q "$PLIK2"; then ((WYNIK++)); fi
+				done < update.txt
+				echo "WYNIK=$WYNIK, LINIE=$LINIE";
 			if [ $WYNIK == $LINIE ]
 			then
 				echo " Wpisy sie zgadzaja "
@@ -225,8 +227,6 @@ cp /media/QNAP/ESP_Firmware/signed/$PLIK2 /var/www/html/update/$PLIK2
 				echo " Wpisy sie nie zgadzaja!!! "
 			fi
 			#exit;
-		    while :
-		    do
 				if [ $WYNIK == $LINIE ];
 				then
 					while [ -z "$NEWVER" ]; do
@@ -281,7 +281,6 @@ cp /media/QNAP/ESP_Firmware/signed/$PLIK2 /var/www/html/update/$PLIK2
 							;;
 						esac
 					else [ "$YOUR_CHOOSE" == 1 ];
-					then
 						echo "Wybrałeś Nie";
 						rm -f ~/update.txt
 						exit;
