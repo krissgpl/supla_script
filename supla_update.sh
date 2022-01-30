@@ -218,7 +218,7 @@ cp /media/QNAP/ESP_Firmware/signed/$PLIK2 /var/www/html/update/$PLIK2
 				if echo "$line" | grep -q "$PLIK2"; then ((WYNIK++)); fi
 			done < update.txt
 			echo "WYNIK=$WYNIK, LINIE=$LINIE";
-			if [ $WYNIK == $LINIE }
+			if [ $WYNIK == $LINIE ]
 			then
 				echo " Wpisy sie zgadzaja "
 			else " Wpisy sie nie zgadzaja!!! "
