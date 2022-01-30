@@ -211,7 +211,7 @@ cp /media/QNAP/ESP_Firmware/signed/$PLIK2 /var/www/html/update/$PLIK2
 			esac
 			dialog --backtitle "SUPLA FIRMWARE UPDATE" --title "Wpis w esp_update przed modyfikacja :" --textbox "update.txt" 20 185
 			LINIE=$( wc -l update.txt);
-			((LINIE--));
+			let "LINIE--"
 			echo "Liczba lini w update.txt : $LINIE";
 			while read line; do
 				if echo "$line" | grep -q "$PLIK"; then ((WYNIK++)); fi
