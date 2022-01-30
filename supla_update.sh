@@ -215,6 +215,7 @@ cp /media/QNAP/ESP_Firmware/signed/$PLIK2 /var/www/html/update/$PLIK2
 				LINIE=$( wc -l < update.txt );
 				((LINIE--));
 				echo "Liczba lini w update.txt : $LINIE";
+				WYNIK=0;
 				while read line; do
 					if echo "$line" | grep -q "$PLIK"; then ((WYNIK++)); fi
 					if echo "$line" | grep -q "$PLIK2"; then ((WYNIK++)); fi
