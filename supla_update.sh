@@ -221,12 +221,13 @@ cp /media/QNAP/ESP_Firmware/signed/$PLIK2 /var/www/html/update/$PLIK2
 			if [ $WYNIK == $LINIE ]
 			then
 				echo " Wpisy sie zgadzaja "
-			else " Wpisy sie nie zgadzaja!!! "
+			else 
+				echo " Wpisy sie nie zgadzaja!!! "
 			fi
-			exit;
+			#exit;
 		    while :
 		    do
-				if [ $WYNIK == 1 ] && [ $WYNIK2 == 1 ];
+				if [ $WYNIK == $LINIE ];
 				then
 					while [ -z "$NEWVER" ]; do
 						VER=$(cut -f 5 update.txt | tail -1);
