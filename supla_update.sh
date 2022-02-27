@@ -121,6 +121,13 @@ fi
 echo "$PLIK";
 echo "$PLIK2";
 
+if [ -d /media/QNAP/ESP_Firmware/signed/ ]
+then
+	echo "QNAP podmontowany";
+else
+	~/qnap_mont.sh
+fi
+
 if [ -e /media/QNAP/ESP_Firmware/signed/$PLIK ] && [ -e /media/QNAP/ESP_Firmware/signed/$PLIK2 ]
 then
 
