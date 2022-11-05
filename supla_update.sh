@@ -63,7 +63,8 @@ while true; do
             BOARD=k_gate_module
 			FLASH_SIZE=4096
 			NOSSL=0
-			
+			SPI=DIO
+			PARAM=6
 			break
             ;;
         3)
