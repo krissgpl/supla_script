@@ -55,7 +55,8 @@ while true; do
             BOARD=k_gate_module_v3
 			FLASH_SIZE=4096
 			NOSSL=0
-			
+			SPI=DIO
+			PARAM=6
 			break
             ;;
 		2)
@@ -69,51 +70,80 @@ while true; do
             BOARD=k_dimmer
 			FLASH_SIZE=4096
 			NOSSL=1
+			SPI=DIO
+			PARAM=6
 			break
             ;;
 		4)
             BOARD=k_gniazdko_neo
 			FLASH_SIZE=1024
+			NOSSL=0
+			SPI=DIO
+			PARAM=2
 			break
             ;;
 		5)
             BOARD=k_rs_module_v3
 			FLASH_SIZE=4096
+			NOSSL=0
+			SPI=DIO
+			PARAM=6
 			break
             ;;
 		6)
             BOARD=k_switch_dual
 			FLASH_SIZE=4096
+			NOSSL=0
+			SPI=DIO
+			PARAM=6
 			break
             ;;
 		7)
             BOARD=k_socket_SSR
 			FLASH_SIZE=4096
+			NOSSL=0
+			SPI=DIO
+			PARAM=6
 			break
             ;;
 		8)
             BOARD=k_yunschan
 			FLASH_SIZE=4096
+			NOSSL=0
+			SPI=DIO
+			PARAM=6
 			break
             ;;
 		9)
             BOARD=k_smoke_module
 			FLASH_SIZE=4096
+			NOSSL=0
+			SPI=DIO
+			PARAM=6
 			break
             ;;
 		10)
             BOARD=k_socket_DHT22
 			FLASH_SIZE=4096
+			NOSSL=0
+			SPI=DIO
+			PARAM=6
 			break
             ;;
 		11)
             BOARD=k_sonoff_touch_dual
 			FLASH_SIZE=1024
+			NOSSL=0
+			SPI=DOUT
+			PARAM=2
 			break
             ;;
 		12)
             BOARD=k_sonoff_touch_triple
 			FLASH_SIZE=1024
+			NOSSL=0
+			SPI=DOUT
+			PARAM=2
 			break
             ;;
   esac
@@ -121,11 +151,11 @@ done
 
 if [ $NOSSL == 1 ]
 then
-	PLIK="$BOARD"_nossl_user1."$FLASH_SIZE"_DIO.new.6.sdk3x.bin;
-	PLIK2="$BOARD"_nossl_user2."$FLASH_SIZE"_DIO.new.6.sdk3x.bin;
+	PLIK="$BOARD"_nossl_user1."$FLASH_SIZE"_"$SPI".new."$PARAM".sdk3x.bin;
+	PLIK2="$BOARD"_nossl_user2."$FLASH_SIZE"_"$SPI".new."$PARAM".sdk3x.bin;
 else
-	PLIK="$BOARD"_user1."$FLASH_SIZE"_DIO.new.6.sdk3x.bin;
-	PLIK2="$BOARD"_user2."$FLASH_SIZE"_DIO.new.6.sdk3x.bin;
+	PLIK="$BOARD"_user1."$FLASH_SIZE"_"$SPI".new."$PARAM".sdk3x.bin;
+	PLIK2="$BOARD"_user2."$FLASH_SIZE"_"$SPI".new."$PARAM".sdk3x.bin;
 fi
 
 echo "$PLIK";
