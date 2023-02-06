@@ -22,7 +22,8 @@ OPTIONS=(1 "k_gate_module_v3"
 		 9 "k_smoke_module"
 		 10 "k_socket_DHT22"
 		 11 "k_sonoff_touch_dual"
-		 12 "k_sonoff_touch_triple")
+		 12 "k_sonoff_touch_triple"
+		 13 "k_versa_module")
 
 rm -f ~/update.txt
 
@@ -147,6 +148,14 @@ while true; do
 			PARAM=2
 			break
             ;;
+		13)
+            BOARD=k_versa_module
+			FLASH_SIZE=4096
+			NOSSL=0
+			SPI=DIO
+			PARAM=6
+			break
+            ;;
   esac
 done
 
@@ -257,6 +266,10 @@ cp /media/QNAP/ESP_Firmware/signed/$PLIK2 /var/www/html/update/$PLIK2
 					cd /home/pi
 					source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update WHERE id=13 or id=14" > update.txt;
 					;;
+				k_versa_module)
+					cd /home/pi
+					source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update WHERE id=39 or id=40" > update.txt;
+					;;
 			esac
 			dialog --backtitle "SUPLA FIRMWARE UPDATE" --title "Wpis w esp_update przed modyfikacja :" --textbox "update.txt" 20 $SZEROKOSC
 		    while :
@@ -356,6 +369,11 @@ cp /media/QNAP/ESP_Firmware/signed/$PLIK2 /var/www/html/update/$PLIK2
 							rm -f ~/update.txt
 							source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update WHERE id=13 or id=14" > update.txt
 							;;
+						k_versa_module)
+							source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "UPDATE esp_update set latest_software_version='$NEWVER' WHERE id=39 or id=40";
+							rm -f ~/update.txt
+							source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update WHERE id=39 or id=40" > update.txt
+							;;
 					esac
 					dialog --backtitle "SUPLA FIRMWARE UPDATE" --title "Zaktualizowany wpis w esp_update :" --textbox "update.txt" 20 $SZEROKOSC
 					rm -f ~/update.txt
@@ -451,6 +469,13 @@ cp /media/QNAP/ESP_Firmware/signed/$PLIK2 /var/www/html/update/$PLIK2
 								source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "UPDATE esp_update set path='get_file.php?file=$PLIK2' WHERE id=13";
 								rm -f ~/update.txt
 								source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update WHERE id=13 or id=14" > update.txt;
+								dialog --backtitle "SUPLA FIRMWARE UPDATE" --title "Zaktualizowany wpis path w esp_update :" --textbox "update.txt" 20 $SZEROKOSC
+								;;
+							k_versa_module)
+								source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "UPDATE esp_update set path='get_file.php?file=$PLIK' WHERE id=40";
+								source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "UPDATE esp_update set path='get_file.php?file=$PLIK2' WHERE id=39";
+								rm -f ~/update.txt
+								source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update WHERE id=39 or id=40" > update.txt;
 								dialog --backtitle "SUPLA FIRMWARE UPDATE" --title "Zaktualizowany wpis path w esp_update :" --textbox "update.txt" 20 $SZEROKOSC
 								;;	
 						esac
