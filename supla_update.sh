@@ -16,14 +16,15 @@ OPTIONS=(1 "k_gate_module_v3"
 		 3 "k_dimmer"
 		 4 "k_gniazdko_neo"
 		 5 "k_rs_module_v3"
-		 6 "k_switch_dual"
-		 7 "k_socket_SSR"
-		 8 "k_yunschan"
-		 9 "k_smoke_module"
-		 10 "k_socket_DHT22"
-		 11 "k_sonoff_touch_dual"
-		 12 "k_sonoff_touch_triple"
-		 13 "k_versa_module")
+		 6 "k_rs_module_v4 AC"
+		 7 "k_switch_dual"
+		 8 "k_socket_SSR"
+		 9 "k_yunschan"
+		 10 "k_smoke_module"
+		 11 "k_socket_DHT22"
+		 12 "k_sonoff_touch_dual"
+		 13 "k_sonoff_touch_triple"
+		 14 "k_versa_module")
 
 rm -f ~/update.txt
 
@@ -93,7 +94,7 @@ while true; do
 			break
             ;;
 		6)
-            BOARD=k_switch_dual
+            BOARD=k_rs_module_v4
 			FLASH_SIZE=4096
 			NOSSL=0
 			SPI=DIO
@@ -101,7 +102,7 @@ while true; do
 			break
             ;;
 		7)
-            BOARD=k_socket_SSR
+            BOARD=k_switch_dual
 			FLASH_SIZE=4096
 			NOSSL=0
 			SPI=DIO
@@ -109,7 +110,7 @@ while true; do
 			break
             ;;
 		8)
-            BOARD=k_yunschan
+            BOARD=k_socket_SSR
 			FLASH_SIZE=4096
 			NOSSL=0
 			SPI=DIO
@@ -117,7 +118,7 @@ while true; do
 			break
             ;;
 		9)
-            BOARD=k_smoke_module
+            BOARD=k_yunschan
 			FLASH_SIZE=4096
 			NOSSL=0
 			SPI=DIO
@@ -125,7 +126,7 @@ while true; do
 			break
             ;;
 		10)
-            BOARD=k_socket_DHT22
+            BOARD=k_smoke_module
 			FLASH_SIZE=4096
 			NOSSL=0
 			SPI=DIO
@@ -133,6 +134,14 @@ while true; do
 			break
             ;;
 		11)
+            BOARD=k_socket_DHT22
+			FLASH_SIZE=4096
+			NOSSL=0
+			SPI=DIO
+			PARAM=6
+			break
+            ;;
+		12)
             BOARD=k_sonoff_touch_dual
 			FLASH_SIZE=1024
 			NOSSL=0
@@ -140,7 +149,7 @@ while true; do
 			PARAM=2
 			break
             ;;
-		12)
+		13)
             BOARD=k_sonoff_touch_triple
 			FLASH_SIZE=1024
 			NOSSL=0
@@ -148,7 +157,7 @@ while true; do
 			PARAM=2
 			break
             ;;
-		13)
+		14)
             BOARD=k_versa_module
 			FLASH_SIZE=4096
 			NOSSL=0
@@ -237,6 +246,10 @@ cp /media/QNAP/ESP_Firmware/signed/$PLIK2 /var/www/html/update/$PLIK2
 				k_rs_module_v3)
 					cd /home/pi
 					source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update WHERE id=5 or id=6 or id=7 or id=8 or id=9 or id=10" > update.txt;
+					;;
+				k_rs_module_v4)
+					cd /home/pi
+					source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update WHERE id=41 or id=42 or id=43 or id=44 or id=45 or id=46" > update.txt;
 					;;
 				k_switch_dual)
 					cd /home/pi
@@ -334,6 +347,11 @@ cp /media/QNAP/ESP_Firmware/signed/$PLIK2 /var/www/html/update/$PLIK2
 							rm -f ~/update.txt
 							source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update WHERE id=5 or id=6 or id=7 or id=8 or id=9 or id=10" > update.txt
 							;;
+						k_rs_module_v4)
+							source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "UPDATE esp_update set latest_software_version='$NEWVER' WHERE id=41 or id=42 or id=43 or id=44 or id=45 or id=46";
+							rm -f ~/update.txt
+							source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update WHERE id=41 or id=42 or id=43 or id=44 or id=45 or id=46" > update.txt
+							;;
 						k_switch_dual)
 							source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "UPDATE esp_update set latest_software_version='$NEWVER' WHERE id=19 or id=20 or id=21 or id=22 or id=23 or id=24";
 							rm -f ~/update.txt
@@ -420,6 +438,13 @@ cp /media/QNAP/ESP_Firmware/signed/$PLIK2 /var/www/html/update/$PLIK2
 								source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "UPDATE esp_update set path='get_file.php?file=$PLIK2' WHERE id=5 or id=7 or id=9";
 								rm -f ~/update.txt
 								source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update WHERE id=5 or id=6 or id=7 or id=8 or id=9 or id=10" > update.txt;
+								dialog --backtitle "SUPLA FIRMWARE UPDATE" --title "Zaktualizowany wpis path w esp_update :" --textbox "update.txt" 20 $SZEROKOSC
+								;;
+							k_rs_module_v4)
+								source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "UPDATE esp_update set path='get_file.php?file=$PLIK' WHERE id=42 or id=44 or id=46";
+								source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "UPDATE esp_update set path='get_file.php?file=$PLIK2' WHERE id=41 or id=43 or id=45";
+								rm -f ~/update.txt
+								source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update WHERE id=41 or id=42 or id=43 or id=44 or id=45 or id=46" > update.txt;
 								dialog --backtitle "SUPLA FIRMWARE UPDATE" --title "Zaktualizowany wpis path w esp_update :" --textbox "update.txt" 20 $SZEROKOSC
 								;;
 							k_switch_dual)
