@@ -193,7 +193,7 @@ elif [ $NOSSL == 2 ] ;
 then
     source ~/supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update WHERE id<100 " > update.txt
     #dialog --backtitle "SUPLA FIRMWARE UPDATE" --title "Wszystkie wpisy w esp_update :" --textbox "update.txt" 45 $SZEROKOSC
-	dialog --backtitle "SUPLA FIRMWARE UPDATE" --title "Wszystkie wpisy w esp_update :" --textbox "update.txt" 0 140
+	dialog --backtitle "SUPLA FIRMWARE UPDATE" --title "Wszystkie wpisy w esp_update :" --textbox "update.txt" 0 180
 	rm -f ~/update.txt
 else
 	PLIK="$BOARD"_user1."$FLASH_SIZE"_"$SPI".new."$PARAM".sdk3x.bin;
