@@ -179,24 +179,22 @@ while true; do
 			break
             ;;
 		16)
-		    BOARD=1
+		    NOSSL=2
 			break
 			;;
   esac
 done
 
-if [ $BOARD == 1 ] ;
+if [ $NOSSL == 1 ] ;
+then
+	PLIK="$BOARD"_nossl_user1."$FLASH_SIZE"_"$SPI".new."$PARAM".sdk3x.bin;
+	PLIK2="$BOARD"_nossl_user2."$FLASH_SIZE"_"$SPI".new."$PARAM".sdk3x.bin;
+elif [ $NOSSL == 2 ] ;
 then
     source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update WHERE id<100 " > update.txt
     #dialog --backtitle "SUPLA FIRMWARE UPDATE" --title "Wszystkie wpisy w esp_update :" --textbox "update.txt" 45 $SZEROKOSC
 	dialog --backtitle "SUPLA FIRMWARE UPDATE" --title "Wszystkie wpisy w esp_update :" --textbox "update.txt" 0 0
 	rm -f ~/update.txt
-fi
-
-if [ $NOSSL == 1 ]
-then
-	PLIK="$BOARD"_nossl_user1."$FLASH_SIZE"_"$SPI".new."$PARAM".sdk3x.bin;
-	PLIK2="$BOARD"_nossl_user2."$FLASH_SIZE"_"$SPI".new."$PARAM".sdk3x.bin;
 else
 	PLIK="$BOARD"_user1."$FLASH_SIZE"_"$SPI".new."$PARAM".sdk3x.bin;
 	PLIK2="$BOARD"_user2."$FLASH_SIZE"_"$SPI".new."$PARAM".sdk3x.bin;
