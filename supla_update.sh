@@ -186,7 +186,7 @@ while true; do
   esac
 done
 
-if [ $BOARD == 1 ]
+if [ $BOARD == 1 ] ;
 then
     #dialog --backtitle "SUPLA FIRMWARE UPDATE" --title "Wszystkie wpisy w esp_update :" --textbox "update.txt" 45 $SZEROKOSC
 	dialog --backtitle "SUPLA FIRMWARE UPDATE" --title "Wszystkie wpisy w esp_update :" --textbox "update.txt" 0 0
