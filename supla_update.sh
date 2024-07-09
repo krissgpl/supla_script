@@ -179,14 +179,14 @@ while true; do
 			break
             ;;
 		16)
-		    BOARD=esp_update
+		    BOARD=1
 			source supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update WHERE id<100 " > update.txt
 			break
 			;;
   esac
 done
 
-if [ $BOARD == esp_update ]
+if [ $BOARD == 1 ]
 then
     #dialog --backtitle "SUPLA FIRMWARE UPDATE" --title "Wszystkie wpisy w esp_update :" --textbox "update.txt" 45 $SZEROKOSC
 	dialog --backtitle "SUPLA FIRMWARE UPDATE" --title "Wszystkie wpisy w esp_update :" --textbox "update.txt" 0 0
