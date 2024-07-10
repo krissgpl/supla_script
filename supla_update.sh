@@ -1,5 +1,6 @@
 #!/bin/bash
-
+main_menu()
+{
 DIALOG_CANCEL=1
 DIALOG_ESC=255
 #HEIGHT=25
@@ -180,14 +181,23 @@ while true; do
             ;;
 		16)
 		    #NOSSL=2
-			source ~/supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update WHERE id<100 " > update.txt
-			#dialog --backtitle "SUPLA FIRMWARE UPDATE" --title "Wszystkie wpisy w esp_update :" --textbox "update.txt" 45 $SZEROKOSC
-			dialog --backtitle "SUPLA FIRMWARE UPDATE" --title "Wszystkie wpisy w esp_update :" --textbox "update.txt" 40 220
-			rm -f ~/update.txt
-			break
+			sub_menu
+			main_menu
 			;;
   esac
 done
+}
+
+sub_menu()
+{
+	rm -f ~/update.txt
+	source ~/supla-docker/.env && docker exec supla-db mysql -u supla --password=$DB_PASSWORD supla -e "SELECT * FROM esp_update WHERE id<100 " > update.txt
+	#dialog --backtitle "SUPLA FIRMWARE UPDATE" --title "Wszystkie wpisy w esp_update :" --textbox "update.txt" 45 $SZEROKOSC
+	dialog --backtitle "SUPLA FIRMWARE UPDATE" --title "Wszystkie wpisy w esp_update :" --textbox "update.txt" 40 220
+	rm -f ~/update.txt
+}
+
+main_menu
 
 if [ $NOSSL == 1 ] ;
 then
