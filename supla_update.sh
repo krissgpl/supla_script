@@ -265,7 +265,10 @@ sub_menu()
 file_menu()
 {
 
-	dialog --backtitle "SUPLA FILE MENU" --title "Tu bedzie menu plikow" --msgbox "A tu zawartosc" 0 0
+	#dialog --backtitle "SUPLA FILE MENU" --title "Tu bedzie menu plikow" --msgbox "A tu zawartosc" 0 0
+	CHOICE='dialog --title "List " --radiolist "$(ls /home)" 100 100'
+	echo "$CHOICE"
+	exit
 	main_menu
 
 }
