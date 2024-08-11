@@ -60,6 +60,7 @@ while true; do
 				;;
 			4)
 				exit
+				clear
 				break
 				;;
 	esac
@@ -264,7 +265,7 @@ sub_menu()
 file_menu()
 {
 
-	dialog --backtitle "SUPLA FILE MENU" --title "Tu bedzie menu plikow" --textbox "update.txt" 0 0
+	dialog --backtitle "SUPLA FILE MENU" --title "Tu bedzie menu plikow"  0 0
 	main_menu
 
 }
