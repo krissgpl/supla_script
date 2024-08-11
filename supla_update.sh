@@ -1,6 +1,72 @@
 #!/bin/bash
 main_menu()
 {
+DIALOG_CANCEL=1
+	DIALOG_ESC=255
+	#HEIGHT=25
+	HEIGHT=0
+	#WIDTH=40
+	WIDTH=0
+	#CHOICE_HEIGHT=29
+	CHOICE_HEIGHT=0
+	BACKTITLE="SUPLA TOOLS"
+	TITLE="MENU GŁÓWNE"
+	MENU="Opcje:"
+	
+	SZEROKOSC=197
+	
+	OPTIONS=(1 "FIRMWARE UPDATE MENU"
+			2 "WPISY W ESP_UPDATE"
+			3 "KOPIOWANIE PLIKÓW FIRMWARE"
+			4 "WYJSCIE")
+	
+while true; do
+		exec 3>&1
+
+			CHOICE=$(dialog --clear \
+					--backtitle "$BACKTITLE" \
+					--title "$TITLE" \
+					--menu "$MENU" \
+					$HEIGHT $WIDTH $CHOICE_HEIGHT \
+					"${OPTIONS[@]}" \
+					2>&1 1>&3)
+	exit_status=$?
+	exec 3>&-
+	case $exit_status in
+		$DIALOG_CANCEL)
+		clear
+		echo "Nie wybrales zadnej plytki !."
+		exit
+		;;
+		$DIALOG_ESC)
+		clear
+		echo "Program aborted." >&2
+		exit 1
+		;;
+	esac
+	case $CHOICE in
+			1)
+				upd_menu
+				break
+				;;
+			2)
+				sub_menu
+				break
+				;;
+			3)
+				echo "MENU - kopiowanie plikow"
+				break
+				;;
+			4)
+				exit
+				break
+				;;
+	esac
+	done
+}	
+
+upd_menu()
+{
 	DIALOG_CANCEL=1
 	DIALOG_ESC=255
 	#HEIGHT=25
@@ -29,8 +95,7 @@ main_menu()
 			12 "k_socket_DHT22"
 			13 "k_sonoff_touch_dual"
 			14 "k_sonoff_touch_triple"
-			15 "k_versa_module"
-			16 "Tabela_ESP_UPDATE")
+			15 "k_versa_module")
 
 	rm -f ~/update.txt
 
@@ -50,7 +115,8 @@ main_menu()
 		$DIALOG_CANCEL)
 		clear
 		echo "Nie wybrales zadnej plytki !."
-		exit
+		main_menu
+		#exit
 		;;
 		$DIALOG_ESC)
 		clear
@@ -179,11 +245,7 @@ main_menu()
 				PARAM=6
 				break
 				;;
-			16)
-				#NOSSL=2
-				sub_menu
-				main_menu
-				;;
+
 	esac
 	done
 }
@@ -195,6 +257,15 @@ sub_menu()
 	#dialog --backtitle "SUPLA FIRMWARE UPDATE" --title "Wszystkie wpisy w esp_update :" --textbox "update.txt" 45 $SZEROKOSC
 	dialog --backtitle "SUPLA FIRMWARE UPDATE" --title "Wszystkie wpisy w esp_update :" --textbox "update.txt" 40 220
 	rm -f ~/update.txt
+	main_menu
+}
+
+file_menu()
+{
+
+dialog --backtitle "SUPLA FILE MENU" --title "Tu bedzie menu plikow" --textbox "update.txt" 0 0
+main_menu
+
 }
 
 main_menu
