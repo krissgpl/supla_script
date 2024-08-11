@@ -35,7 +35,7 @@ while true; do
 	case $exit_status in
 		$DIALOG_CANCEL)
 		clear
-		echo "Nie wybrales zadnej plytki !."
+		echo "Wyjscie z programu !."
 		exit
 		;;
 		$DIALOG_ESC)
@@ -59,8 +59,8 @@ while true; do
 				break
 				;;
 			4)
-				exit
 				clear
+				exit
 				break
 				;;
 	esac
@@ -265,7 +265,7 @@ sub_menu()
 file_menu()
 {
 
-	dialog --backtitle "SUPLA FILE MENU" --title "Tu bedzie menu plikow"  0 0
+	dialog --backtitle "SUPLA FILE MENU" --title "Tu bedzie menu plikow" --msgbox "A tu zawartosc" 0 0
 	main_menu
 
 }
