@@ -55,7 +55,7 @@ while true; do
 				;;
 			3)
 				echo "MENU - kopiowanie plikow"
-				main_menu
+				file_menu
 				break
 				;;
 			4)
