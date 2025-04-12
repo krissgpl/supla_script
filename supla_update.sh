@@ -273,8 +273,8 @@ upd_menu()
 	if [ -e ~/CProjects/supla-espressif-esp/firmware/signed/$PLIK ] && [ -e ~/CProjects/supla-espressif-esp/firmware/signed/$PLIK2 ]
 	then
 
-		#dialog --clear --backtitle "SUPLA FIRMWARE UPDATE" --yesno "Znalazlem w QNAP signed: \n $PLIK \n $PLIK2 \n Czy skopiowac ?" 10 52
-		dialog --clear --backtitle "SUPLA FIRMWARE UPDATE" --yesno "Znalazlem w QNAP signed: \n $PLIK \n $PLIK2 \n Czy skopiowac ?" 0 0
+		#dialog --clear --backtitle "SUPLA FIRMWARE UPDATE" --yesno "Znalazlem w firmware signed: \n $PLIK \n $PLIK2 \n Czy skopiowac ?" 10 52
+		dialog --clear --backtitle "SUPLA FIRMWARE UPDATE" --yesno "Znalazlem w firmware signed: \n $PLIK \n $PLIK2 \n Czy skopiowac ?" 0 0
 			YOUR_CHOOSE=$?;
 			if [ "$YOUR_CHOOSE" == 0 ];
 			then
